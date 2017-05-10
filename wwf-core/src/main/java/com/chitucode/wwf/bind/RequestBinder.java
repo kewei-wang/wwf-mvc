@@ -1,3 +1,15 @@
+/**
+ * Wow Web Framework
+ *
+ *
+ * Copyright (c) 2017 Kevin Wang(Kewei Wang)
+ *
+ * Licensed as  MIT License
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * email: 827765236@qq.com
+ * Date: 2017-05-10
+ */
 package com.chitucode.wwf.bind;
 
 import com.chitucode.wwf.context.BeatContext;
