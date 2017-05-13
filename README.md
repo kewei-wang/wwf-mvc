@@ -1,18 +1,21 @@
 Wow Web Framework
 ====
 
-##起因
+起因
+----
 
 自己想写一个web框架
 
-##项目说明
+项目说明
+----
 
 整个项目结构为:
 wwf
     -wwf-core(wwf的核心包)
     -wwf-web(wwf与spring的集成演示)
 
-##约定
+约定
+----
 
 1.整个项目应为标准的maven-archetype-webapp
 
