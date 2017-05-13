@@ -33,4 +33,10 @@ public class LogController extends BaseController {
         return new StringActionResult("what");
     }
 
+    @Path("/")
+    public ActionResult iii(){
+
+        return new StringActionResult("aaaaccc");
+    }
+
 }

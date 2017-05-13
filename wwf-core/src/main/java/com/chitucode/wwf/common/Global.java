@@ -13,6 +13,7 @@
 package com.chitucode.wwf.common;
 
 import com.chitucode.wwf.context.ActionInfo;
+import org.apache.commons.collections.map.MultiValueMap;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,9 +30,9 @@ public class Global {
     public static String VIEW_ROOT_PATH;
 
 
-    private static final Map<String, Object> CONTROLLER_MAP = new ConcurrentHashMap<>();
+    public static  Map<String, ActionInfo> CONTROLLER_MAP = new ConcurrentHashMap<>();
 
-    private static final Map<String, ActionInfo> ACTION_INFO_MAP = new ConcurrentHashMap<>();
+    public static  MultiValueMap ACTION_INFO_MAP ;
 
 
 }

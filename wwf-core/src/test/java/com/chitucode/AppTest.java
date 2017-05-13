@@ -76,6 +76,15 @@ public class AppTest {
     }
 
     @Test
+    public void testMultiMapKeyMatch(){
+        boolean b = matcher.match("/user**/**", "/user/1/index*");
+
+        Assert.assertEquals(b,true);
+
+    }
+
+
+    @Test
     public void testTreeMap(){
 
         Map<Integer,String> map = new TreeMap<>();
