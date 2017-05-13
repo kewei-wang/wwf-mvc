@@ -1,4 +1,4 @@
-Wow Web Framework [![travelci]](https://travis-ci.org/kowayvwang/wwf-mvc.svg?branch=master)
+Wow Web Framework [![Build Status](https://travis-ci.org/kowayvwang/wwf-mvc.svg?branch=master)](https://travis-ci.org/kowayvwang/wwf-mvc)
 ====
 
 起因
