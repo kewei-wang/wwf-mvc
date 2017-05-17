@@ -65,8 +65,6 @@ public class DispatcherServlet implements Filter {
 
         //要最先初始化WWFConfig
 
-
-
         try {
             //先加载扩展点和插件,在进行内部初始化
            //Properties pps = new Properties();
@@ -154,70 +152,63 @@ public class DispatcherServlet implements Filter {
 
                 } else {
                     //动态资源请求的路径
+                    ActionInfo actionInfo = actionInfoMap.get(requestUri);
 
-                    //TODO 此处能否优化查找时间?可以使用MutilMap进行优化
-                    for (String url : actionInfoMap.keySet()) {
+                    if(actionInfo == null) {
+                        for (String url : actionInfoMap.keySet()) {
 
-                        if (matcher.match(url, requestUri)) {
-                            //匹配到了相应的Action
-                            ActionInfo actionInfo = actionInfoMap.get(url);
-
-                            BeatContext.current().setActionInfo(actionInfo);
-
-                            if (!(("GET".equals(requestMethod) && actionInfo.isGet()) ||
-                                    "POST".equals(requestMethod) && actionInfo.isPost() ||
-                                    actionInfo.isGet() == actionInfo.isPost())) {
-
-                                return;
+                            if (matcher.match(url, requestUri)) {
+                                //匹配到了相应的Action
+                                actionInfo = actionInfoMap.get(url);
+                                break;
                             }
+                        }
+                    }
+                    //如果没有任何匹配的URL,说明无法发现
+                    if(actionInfo == null) {
+                        resp.sendError(404, "Sorry,No Controller or action found for path : " + req.getRequestURI());
+                    }else{
 
+                        //开始执行Action
+                        BeatContext.current().setActionInfo(actionInfo);
 
-                            List<WWFInterceptor> interceptorList = actionInfo.getInterceptorList();
-
-                            //execute "before" interceptors
-                            if (executeBeforeInterceptors(interceptorList)) return;
-
-                            Method method = actionInfo.getMethod();
-                            Object[] param = ActionParamBinder.bind(req, actionInfo);
-                            ActionResult actionResult = (ActionResult) method.invoke(actionInfo.getControllerInstance(), param);
-
-
-                            //执行After拦截器链倒序执行,在渲染视图之前执行
-                            if (executeAfterInterceptors(interceptorList, actionResult)) return;
-
-                            //render the view
-                            actionResult.renderer();
-
-
-                            //执行complete拦截器链倒序执行,在视图渲染之后方法返回之前执行
-                            if (executeCompleteInterceptors(interceptorList, actionResult)) return;
+                        if (!(("GET".equals(requestMethod) && actionInfo.isGet()) ||
+                                "POST".equals(requestMethod) && actionInfo.isPost() ||
+                                actionInfo.isGet() == actionInfo.isPost())) {
 
                             return;
-
-                        }else{
-                            // TODO: 17/5/13 There is no adaptable controller instance
-
                         }
 
 
+                        List<WWFInterceptor> interceptorList = actionInfo.getInterceptorList();
+
+                        //execute "before" interceptors
+                        if (executeBeforeInterceptors(interceptorList)) return;
+
+                        Method method = actionInfo.getMethod();
+                        Object[] param = ActionParamBinder.bind(req, actionInfo);
+                        ActionResult actionResult = (ActionResult) method.invoke(actionInfo.getControllerInstance(), param);
+
+
+                        //执行After拦截器链倒序执行,在渲染视图之前执行
+                        if (executeAfterInterceptors(interceptorList, actionResult)) return;
+
+                        //render the view
+                        actionResult.renderer();
+
+
+                        //执行complete拦截器链倒序执行,在视图渲染之后方法返回之前执行
+                        if (executeCompleteInterceptors(interceptorList, actionResult)) return;
+
+                        return;
+
                     }
-                    //如果没有任何匹配的URL,说明无法发现
-                    resp.sendError(404, "Sorry,No Controller or action found for path : " + req.getRequestURI());
                 }
 
             } catch (Exception e) {
                 //todo Process all the exceptions occured during executing,include finding static resources,execute interceptors and controllers
-                //System.out.println();
-                //e.printStackTrace();
-                /*StackTraceElement[] satckElements = e.getStackTrace();
-                System.out.println(e.getCause());
-                System.out.println(e.getMessage());*/
 
                 e.printStackTrace();
-
-                /*for (StackTraceElement element:satckElements) {
-                    System.out.println(element);
-                }*/
 
                 try {
                     //打印到网页
@@ -230,11 +221,8 @@ public class DispatcherServlet implements Filter {
 
             }finally{
                 //请求结束后移除请求上下文资源
-                BeatContext.destory();
+                //BeatContext.destory();
             }
-
-        /*}*/
-
 
     }
 
