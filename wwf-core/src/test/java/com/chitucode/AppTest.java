@@ -98,5 +98,12 @@ public class AppTest {
 
     }
 
+    @Test
+    public void testMatcherUrlSort(){
+
+        matcher.getPatternComparator("");
+
+    }
+
 
 }

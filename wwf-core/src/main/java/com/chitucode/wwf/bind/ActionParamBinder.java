@@ -14,7 +14,6 @@ package com.chitucode.wwf.bind;
 
 import com.chitucode.wwf.context.ActionInfo;
 import com.chitucode.wwf.util.*;
-import org.apache.commons.lang.time.FastDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import java.beans.IntrospectionException;
@@ -31,7 +30,6 @@ import java.util.*;
  */
 public class ActionParamBinder {
 
-    public static final FastDateFormat WWF_DEFAULT_DATETIME_FORMAT = FastDateFormat.getInstance("yyyy-MM-dd HH:mm:ss");
 
     public static Object[] bind(HttpServletRequest req, ActionInfo actionInfo) throws InvocationTargetException, IntrospectionException, InstantiationException, ParseException, IllegalAccessException {
 

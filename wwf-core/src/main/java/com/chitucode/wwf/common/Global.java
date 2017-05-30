@@ -32,7 +32,4 @@ public class Global {
 
     public static  Map<String, ActionInfo> CONTROLLER_MAP = new ConcurrentHashMap<>();
 
-    public static  MultiValueMap ACTION_INFO_MAP ;
-
-
 }

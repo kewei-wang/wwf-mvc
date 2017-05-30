@@ -45,9 +45,6 @@ public class ControllerInit implements Init {
 
         String basePackage = config.getProperty("wwf.basepackage");
         String controllerPackage = basePackage + ".controllers";
-        //String interceptorPath = basePackage + "."
-        MultiValueMap controllerMap = new MultiValueMap();
-
         Set<Class<?>> controllerSet = ClassUtils.getClasses(controllerPackage, true);
 
         for (Class<?> controllerClass : controllerSet) {
@@ -144,6 +141,10 @@ public class ControllerInit implements Init {
 
                                 actionInfo.setInterceptorList(interceptorList);//设置拦截器链
 
+                                //默认情况下,只能处理get
+                                actionInfo.setGet(true);
+                                actionInfo.setPost(false);
+
                                 if (ClassUtils.hasClassAnnotation(controllerClass, GET.class) ||
                                         (ClassUtils.hasMethodAnnotation(controllerClass, GET.class, action.getName(), action.getParameterTypes()) &&
                                                 !ClassUtils.hasMethodAnnotation(controllerClass, POST.class, action.getName(), action.getParameterTypes()))) {
@@ -175,13 +176,6 @@ public class ControllerInit implements Init {
 
                                 actionInfoMap.put(actionInfo.getUrlPath(), actionInfo);
 
-                                if(StringUtils.isEmpty(reqPath)){
-                                    controllerMap.put(reqPath, actionInfo);
-                                }else{
-                                    controllerMap.put(reqPath+"/**", actionInfo);
-                                }
-
-
                             }
 
                         }
@@ -197,7 +191,6 @@ public class ControllerInit implements Init {
         }
 
 
-        Global.ACTION_INFO_MAP = controllerMap;
         Global.CONTROLLER_MAP = actionInfoMap;
     }
 }
